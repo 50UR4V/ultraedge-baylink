@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Baylink flasher · UltraEdge</title>
+<meta name="description" content="Flash the UltraEdge Baylink firmware onto an ESP32-C3 board from your browser.">
+<link rel="icon" href="assets/ultraedge-mark.webp">
+<link rel="stylesheet" href="flasher.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap header-row">
+    <a class="brand" href="https://ultraedge.app/" aria-label="UltraEdge home"><img src="assets/ultraedge-mark.webp" width="38" height="38"
+      alt=""><span>UltraEdge<small>YOUR RADIO. MORE POSSIBILITIES.</small></span></a>
+  </div>
+</header>
+<main class="wrap">
+  <div class="eyebrow"><span class="dot" aria-hidden="true"></span>BAYLINK FLASHER</div>
+  <h1>Flash your <em>Baylink.</em></h1>
+  <p class="lead">Puts the UltraEdge Baylink firmware on a bare ESP32-C3 board over USB. Do it once, before the board
+    goes into its case. No sign-in.</p>
+
+  <section class="card notice" id="before">
+    <h2>Before you start</h2>
+    <ul>
+      <li>The Baylink works with the <strong>UltraEdge app on an Android phone</strong>.</li>
+      <li>Check your radio is on the <a href="https://github.com/50UR4V/edgetx-ue/blob/ultraedge/SUPPORTED-RADIOS.md"
+        target="_blank" rel="noopener">supported radios</a> list.</li>
+      <li>You need an ESP32-C3 board with 4 MB flash and a USB data cable.</li>
+      <li>Use Chrome or Edge on a computer, or Chrome on an Android phone.</li>
+    </ul>
+  </section>
+
+  <section class="card" id="unsupported" hidden>
+    <h2>This browser can't reach USB devices</h2>
+    <p>Open this page in <strong>Chrome or Edge</strong> on a computer (Windows, macOS, Linux, ChromeOS), or in
+      <strong>Chrome on an Android phone</strong> with a USB-C cable or adapter.</p>
+    <p class="small" id="unsupported-why"></p>
+  </section>
+
+  <section class="card step" id="step-kind">
+    <h2><span class="num">1</span> Where will this module go?</h2>
+    <div class="choices" role="radiogroup" aria-label="Where will this module go?">
+      <label class="choice">
+        <input type="radio" name="kind" value="bay" checked>
+        <span><strong>Module bay</strong><br><span class="small">Slides into the radio's external module bay. Most
+          builds.</span></span>
+      </label>
+      <label class="choice">
+        <input type="radio" name="kind" value="aux">
+        <span><strong>AUX1 port</strong><br><span class="small">Wired to the radio's AUX1 serial port (TX16S, Pocket,
+          Zorro). Do-it-yourself.</span></span>
+      </label>
+    </div>
+    <p class="small warn">Pick the right one. A Bluetooth update can't change it later; only another USB flash can.</p>
+  </section>
+
+  <section class="card step" id="step-fw">
+    <h2><span class="num">2</span> Firmware</h2>
+    <div class="status" id="fw-status" aria-live="polite">Loading the firmware list…</div>
+    <div class="actions" id="fw-actions" hidden>
+      <button type="button" id="fw-retry">Retry</button>
+    </div>
+  </section>
+
+  <section class="card step" id="step-flash">
+    <h2><span class="num">3</span> Connect and flash</h2>
+    <ol class="small">
+      <li>Plug the ESP32-C3 board into this computer or phone by USB.</li>
+      <li>Press <strong>Connect</strong> and pick the board in the list (often "USB JTAG/serial debug unit" or
+        "ESP32-C3").</li>
+      <li>Press <strong>Flash</strong>. Keep the cable in until it says done (about a minute).</li>
+    </ol>
+    <div class="actions">
+      <button type="button" id="connect" class="primary" disabled>Connect</button>
+      <button type="button" id="flash" class="primary" disabled>Flash</button>
+    </div>
+    <div class="status" id="dev-status" aria-live="polite"></div>
+    <div class="progress" id="progress" hidden>
+      <div class="bar"><div class="fill" id="progress-fill"></div></div>
+      <div class="small" id="progress-text"></div>
+    </div>
+    <details class="advanced">
+      <summary>Advanced</summary>
+      <label class="check"><input type="checkbox" id="erase-all" autocomplete="off"> Erase the whole chip first</label>
+      <p class="small">Only for a board that won't start after a normal flash. It also forgets the module's paired
+        phones and its registration (you register again in the app).</p>
+    </details>
+  </section>
+
+  <section class="card error" id="error" hidden role="alert">
+    <h2 id="error-title">Something went wrong</h2>
+    <p id="error-msg"></p>
+    <p class="small" id="error-hint"></p>
+    <div class="actions">
+      <button type="button" id="error-retry" class="primary">Retry</button>
+      <button type="button" id="diag-copy">Copy diagnostics</button>
+      <button type="button" id="diag-save">Save diagnostics</button>
+    </div>
+  </section>
+
+  <section class="card done" id="done" hidden>
+    <h2>Done</h2>
+    <p id="done-msg"></p>
+    <ol class="small">
+      <li>Unplug the board and build it into its case.</li>
+      <li>Fit it to the radio and set up the link in the app: see the
+        <a href="https://github.com/50UR4V/UltraEdge-app/blob/main/UserManual/16-wireless.md" target="_blank"
+        rel="noopener">wireless chapter of the manual</a>.</li>
+      <li>Registration comes later, in the app over Bluetooth. You won't need to open the case.</li>
+    </ol>
+    <div class="actions">
+      <button type="button" id="again">Flash another board</button>
+      <button type="button" id="diag-save-done">Save log</button>
+    </div>
+  </section>
+
+  <section class="card" id="updates" hidden>
+    <h2>Update a Baylink you already have</h2>
+    <p class="small">No need to open the case. Download the file for your module's kind on your phone, then in the app open
+      <strong>Wireless module › Update module firmware</strong> and pick it. The app and the module check the file before
+      anything changes.</p>
+    <ul id="update-links"></ul>
+  </section>
+
+  <section class="card log">
+    <details>
+      <summary>Log</summary>
+      <pre id="log"></pre>
+    </details>
+  </section>
+
+</main>
+<footer class="site-footer wrap">
+  <div>
+    <a class="brand" href="https://ultraedge.app/">UltraEdge</a>
+    <p>This page talks to the board only from your browser; nothing about it is sent anywhere.</p>
+    <p>The Baylink firmware is proprietary software, supplied as a binary under the <a href="https://github.com/50UR4V/ultraedge-baylink/blob/main/LICENSE">UltraEdge firmware licence</a>, for use
+      with the UltraEdge app. © 2026 Sourav Karmakar. All rights reserved.</p>
+  </div>
+  <nav aria-label="Footer">
+    <a href="https://ultraedge.app/">UltraEdge app</a>
+    <a href="https://bampi2k.com/ultraedge/privacy">Privacy</a>
+    <a href="https://github.com/50UR4V/UltraEdge-app/blob/main/UserManual/16-wireless.md">Wireless manual</a>
+    <a href="https://github.com/50UR4V/ultraedge-baylink/blob/main/LICENSE">Firmware licence</a>
+    <a href="https://github.com/50UR4V/ultraedge-baylink/blob/main/OPEN-SOURCE-NOTICES.md">Open-source notices</a>
+    <a href="https://github.com/50UR4V/UltraEdge-app/issues">Support</a>
+  </nav>
+</footer>
+<script type="module" src="flasher.js"></script>
+</body>
+</html>

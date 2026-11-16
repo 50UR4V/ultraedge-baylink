@@ -1,0 +1,19 @@
+Copyright (c) 2026 Sourav Karmakar. All rights reserved.
+
+The UltraEdge Baylink firmware (the "Firmware") is proprietary software, under the same terms as the UltraEdge app
+(`docs/release-collateral/app-LICENSE.txt`). It runs on the ESP32-C3 in an UltraEdge Baylink module and is supplied
+only as a binary image. No license is granted to copy, modify, distribute, reverse-engineer, or create derivative works
+of the Firmware except as follows:
+
+- You may install the Firmware on modules you own, with the web flasher on ultraedge.app or with a firmware update
+  from the UltraEdge app, and use it with the UltraEdge app. No account is needed to install it.
+- A module may need to be registered in the UltraEdge app before the Firmware carries data. The registration belongs
+  to the module, not to a phone or a radio.
+- You may sell or give away a module with the Firmware installed on it; these terms, and its registration, pass to the
+  new owner with the module. You may download the Firmware image files only to install them; you may not copy, share
+  or publish them.
+- Making and selling modules with the Firmware installed needs a separate written agreement with the author.
+
+The Firmware is provided "as is", without warranty of any kind. Open-source components embedded in the Firmware are
+licensed under their own terms (ESP-IDF and NimBLE: Apache-2.0; Monocypher: CC0-1.0); see OPEN-SOURCE-NOTICES.md. Files
+marked `GPL-2.0-only OR LicenseRef-UltraEdge` are also available under GPL-2.0 in the UltraEdge radio firmware.
