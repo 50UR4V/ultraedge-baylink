@@ -1,10 +1,10 @@
 // UltraEdge Baylink web flasher: page flow. Design: docs/prds/PRD-baylink-web-flasher.md. Checks live in lib/core.js.
-import { openBoard, writeParts, closeBoard } from "./lib/board.js?v=1.0.1";
+import { openBoard, writeParts, closeBoard } from "./lib/board.js?v=1.0.2";
 import {
   FlasherError, KINDS, validateManifest, checkPart, kindName, toHex, transportSupport, withTimeout,
-} from "./lib/core.js?v=1.0.1";
+} from "./lib/core.js?v=1.0.2";
 
-const PAGE_VERSION = "1.0.1"; // keep the ?v= tags in index.html, flasher.js and lib/board.js equal to this
+const PAGE_VERSION = "1.0.2"; // keep the ?v= tags in index.html, flasher.js and lib/board.js equal to this
 const MANIFEST_URL = "firmware/manifest.json";
 const T = { manifest: 15000, fileIdle: 20000 };
 
@@ -215,20 +215,25 @@ async function loadImages() {
 }
 
 // Bluetooth update files (Story 11 / D15): one download per kind, picked in the app
+function updateLink(m, u, text) {
+  const li = document.createElement("li");
+  const a = document.createElement("a");
+  a.href = new URL(u.file, new URL(MANIFEST_URL, location.href)).href;
+  a.download = u.file.split("/").pop();
+  a.textContent = text;
+  li.append(a, ` (${Math.round(u.size / 1024)} KB)`);
+  return li;
+}
+
 function showUpdates(m) {
-  const ul = $("update-links");
-  ul.textContent = "";
+  const ul = $("update-links"), tl = $("update-test-links");
+  ul.textContent = tl.textContent = "";
   for (const k of Object.keys(KINDS)) {
-    const u = m.kinds[k].update;
-    if (!u) continue;
-    const li = document.createElement("li");
-    const a = document.createElement("a");
-    a.href = new URL(u.file, new URL(MANIFEST_URL, location.href)).href;
-    a.download = u.file.split("/").pop();
-    a.textContent = `${KINDS[k].label}: build ${m.build}`;
-    li.append(a, ` (${Math.round(u.size / 1024)} KB)`);
-    ul.append(li);
+    const { update, updateFromTest } = m.kinds[k];
+    if (update) ul.append(updateLink(m, update, `${KINDS[k].label}: build ${m.build}`));
+    if (updateFromTest) tl.append(updateLink(m, updateFromTest, `${KINDS[k].label}: build ${m.build}, from a test build`));
   }
+  $("update-test").hidden = !tl.children.length;
   $("updates").hidden = !ul.children.length;
 }
 

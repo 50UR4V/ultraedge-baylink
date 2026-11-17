@@ -3,7 +3,7 @@
   "product": "UltraEdge Baylink",
   "chip": "ESP32-C3",
   "flashSize": "4MB",
-  "date": "2026-11-16",
+  "date": "2026-11-17",
   "kinds": {
     "bay": {
       "label": "Module bay",
@@ -12,15 +12,15 @@
         {
           "name": "bootloader",
           "offset": 0,
-          "file": "1026/bay/bootloader.bin",
+          "file": "1083/bay/bootloader.bin",
           "size": 20912,
-          "sha256": "d18351f5b872c7fecac0386f9b91d8dd33be1a7238467c520e2aa548e53f1f06",
-          "md5": "9be745eb808dde7194e6fbd719fbbe19"
+          "sha256": "39836a9e93485386fbbf61c34f8b25ab6c0811dcd9ea2a0b1b5743751b8a330a",
+          "md5": "b80ac889c1a349bf69ef0a25ad0ec116"
         },
         {
           "name": "partition-table",
           "offset": 32768,
-          "file": "1026/bay/partition-table.bin",
+          "file": "1083/bay/partition-table.bin",
           "size": 3072,
           "sha256": "6d289a85d955457cd917a1072a8bab0f4bea0b4ed7c3e5ca75410814bafcc691",
           "md5": "020ff35bfaa3cab0d70649433610f5dc"
@@ -28,7 +28,7 @@
         {
           "name": "otadata",
           "offset": 61440,
-          "file": "1026/bay/ota_data_initial.bin",
+          "file": "1083/bay/ota_data_initial.bin",
           "size": 8192,
           "sha256": "7d2c7ac4888bfd75cd5f56e8d61f69595121183afc81556c876732fd3782c62f",
           "md5": "84d04c9d6cc8ef35bf825d51a5277699"
@@ -36,16 +36,21 @@
         {
           "name": "app",
           "offset": 131072,
-          "file": "1026/bay/ue_c3_bridge.bin",
-          "size": 691248,
-          "sha256": "2daf8c37452659c6c3e184ec5fdba9cc23923b616c51e34a59a7962480aef55e",
-          "md5": "0305f6752707f8b04a87a073571b747f"
+          "file": "1083/bay/ue_c3_bridge.bin",
+          "size": 695568,
+          "sha256": "dff4c4c5eb916f23af3828e9aa3a2c8aec746f0cf5f9b2890f0f0fa79a4503a8",
+          "md5": "96999835a3429568e54a5d5a8e134d0d"
         }
       ],
       "update": {
-        "file": "1026/bay/ue-c3-bay-1026-TEST.ueimg",
-        "size": 691366,
-        "sha256": "338d9dac9e44b47917d37351ce7d76636da4b0c6e596f7d4a88b90a68f385c20"
+        "file": "1083/bay/ue-c3-bay-1083.ueimg",
+        "size": 695686,
+        "sha256": "95758bf53540262cbe87527cae0bd4f74424dec5049ac6c3162e22d80f5bfd47"
+      },
+      "updateFromTest": {
+        "file": "1083/bay/ue-c3-bay-1083-to-real.ueimg",
+        "size": 695686,
+        "sha256": "759b26f30d2e2af9aa1b007110c2e23e14f384600ead3041abab039a402f6419"
       }
     },
     "aux": {
@@ -55,15 +60,15 @@
         {
           "name": "bootloader",
           "offset": 0,
-          "file": "1026/aux/bootloader.bin",
+          "file": "1083/aux/bootloader.bin",
           "size": 20912,
-          "sha256": "777fc19c1c03b654cd2a2f7869c311045445b2af098f3483437c26c184bd6e7b",
-          "md5": "a5a16ccd1dacdd59a06eae7142399cf2"
+          "sha256": "95f5508fe007aca8a7a1d6834fbd4cae8619eec7b3a2d31bf32342bf0b7f0140",
+          "md5": "0c13d90467e9158e3901787820efafa1"
         },
         {
           "name": "partition-table",
           "offset": 32768,
-          "file": "1026/aux/partition-table.bin",
+          "file": "1083/aux/partition-table.bin",
           "size": 3072,
           "sha256": "6d289a85d955457cd917a1072a8bab0f4bea0b4ed7c3e5ca75410814bafcc691",
           "md5": "020ff35bfaa3cab0d70649433610f5dc"
@@ -71,7 +76,7 @@
         {
           "name": "otadata",
           "offset": 61440,
-          "file": "1026/aux/ota_data_initial.bin",
+          "file": "1083/aux/ota_data_initial.bin",
           "size": 8192,
           "sha256": "7d2c7ac4888bfd75cd5f56e8d61f69595121183afc81556c876732fd3782c62f",
           "md5": "84d04c9d6cc8ef35bf825d51a5277699"
@@ -79,20 +84,25 @@
         {
           "name": "app",
           "offset": 131072,
-          "file": "1026/aux/ue_c3_bridge.bin",
-          "size": 691168,
-          "sha256": "d2bf7f2f0e1caf74442ef89e5634615620111c3363ec405e1738d7551613a019",
-          "md5": "c98342dc0b61db7f91cc9a499c8e5314"
+          "file": "1083/aux/ue_c3_bridge.bin",
+          "size": 695488,
+          "sha256": "bf73178bd618e7874a246c12aa35bcfa48385dfa7f1c256ea4cd43b6061cd142",
+          "md5": "028b0c478a0bffbfd6d18eaa39aa15c8"
         }
       ],
       "update": {
-        "file": "1026/aux/ue-c3-aux-1026-TEST.ueimg",
-        "size": 691286,
-        "sha256": "f3aeed0f233aa62666963d132f588556876fef4d5e6893434676142b79472c7c"
+        "file": "1083/aux/ue-c3-aux-1083.ueimg",
+        "size": 695606,
+        "sha256": "96897462474fa671df5e1fc46107e9d55f004f13fe64967beed2e73062afb1be"
+      },
+      "updateFromTest": {
+        "file": "1083/aux/ue-c3-aux-1083-to-real.ueimg",
+        "size": 695606,
+        "sha256": "af7fafdf84135a7533212f33829e3d4e919bc90c6e86eba99a0662e8dcfb7d6f"
       }
     }
   },
-  "version": "2ddc8ddc",
-  "build": 1026,
-  "keys": "TEST"
+  "version": "b70485a1",
+  "build": 1083,
+  "keys": "RELEASE"
 }

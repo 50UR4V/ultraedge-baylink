@@ -6,7 +6,7 @@
 <title>Baylink flasher · UltraEdge</title>
 <meta name="description" content="Flash the UltraEdge Baylink firmware onto an ESP32-C3 board from your browser.">
 <link rel="icon" href="assets/ultraedge-mark.webp">
-<link rel="stylesheet" href="flasher.css?v=1.0.1">
+<link rel="stylesheet" href="flasher.css?v=1.0.2">
 </head>
 <body>
 <header class="site-header">
@@ -23,7 +23,8 @@
   <section class="card notice" id="before">
     <h2>Before you start</h2>
     <ul>
-      <li>The Baylink works with the <strong>UltraEdge app on an Android phone</strong>.</li>
+      <li>Needs the <strong>UltraEdge app 1.7.1</strong> on an Android phone and <strong>UltraEdge firmware v1.2.2</strong>
+        on the radio.</li>
       <li>Check your radio is on the <a href="https://github.com/50UR4V/edgetx-ue/blob/ultraedge/SUPPORTED-RADIOS.md"
         target="_blank" rel="noopener">supported radios</a> list.</li>
       <li>You need an ESP32-C3 board with 4 MB flash and a USB data cable.</li>
@@ -84,7 +85,7 @@
       <summary>Advanced</summary>
       <label class="check"><input type="checkbox" id="erase-all" autocomplete="off"> Erase the whole chip first</label>
       <p class="small">Only for a board that won't start after a normal flash. It also forgets the module's paired
-        phones and its registration (you register again in the app).</p>
+        phones and its activation, and a waiting activation request (you pair and activate it again in the app).</p>
     </details>
   </section>
 
@@ -107,7 +108,8 @@
       <li>Fit it to the radio and set up the link in the app: see the
         <a href="https://github.com/50UR4V/UltraEdge-app/blob/main/UserManual/16-wireless.md" target="_blank"
         rel="noopener">wireless chapter of the manual</a>.</li>
-      <li>Registration comes later, in the app over Bluetooth. You won't need to open the case.</li>
+      <li>Activate it in the app: <strong>Wireless module › Activate this Baylink</strong>: one tap
+        with Google, or by email. No need to open the case.</li>
     </ol>
     <div class="actions">
       <button type="button" id="again">Flash another board</button>
@@ -121,6 +123,11 @@
       <strong>Wireless module › Update module firmware</strong> and pick it. The app and the module check the file before
       anything changes.</p>
     <ul id="update-links"></ul>
+    <div id="update-test" hidden>
+      <p class="small">Module still on a test build (1026 or older)? Use this file once instead. Then activate it in the
+        app.</p>
+      <ul id="update-test-links"></ul>
+    </div>
   </section>
 
   <section class="card log">
@@ -148,6 +155,6 @@
     <a href="https://github.com/50UR4V/UltraEdge-app/issues">Support</a>
   </nav>
 </footer>
-<script type="module" src="flasher.js?v=1.0.1"></script>
+<script type="module" src="flasher.js?v=1.0.2"></script>
 </body>
 </html>
