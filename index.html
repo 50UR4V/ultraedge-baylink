@@ -3,10 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Security audit 2026-11-17: everything this page runs or downloads comes from its own folder. No inline script or
+     style, no other host, no plugin, no form. (frame-ancestors can't be set here: flasher.js refuses to run in a frame.) -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Baylink flasher · UltraEdge</title>
 <meta name="description" content="Flash the UltraEdge Baylink firmware onto an ESP32-C3 board from your browser.">
 <link rel="icon" href="assets/ultraedge-mark.webp">
-<link rel="stylesheet" href="flasher.css?v=1.0.2">
+<link rel="stylesheet" href="flasher.css?v=1.0.3">
 </head>
 <body>
 <header class="site-header">
@@ -155,6 +159,6 @@
     <a href="https://github.com/50UR4V/UltraEdge-app/issues">Support</a>
   </nav>
 </footer>
-<script type="module" src="flasher.js?v=1.0.2"></script>
+<script type="module" src="flasher.js?v=1.0.3"></script>
 </body>
 </html>

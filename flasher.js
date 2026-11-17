@@ -1,10 +1,10 @@
 // UltraEdge Baylink web flasher: page flow. Design: docs/prds/PRD-baylink-web-flasher.md. Checks live in lib/core.js.
-import { openBoard, writeParts, closeBoard } from "./lib/board.js?v=1.0.2";
+import { openBoard, writeParts, closeBoard } from "./lib/board.js?v=1.0.3";
 import {
   FlasherError, KINDS, validateManifest, checkPart, kindName, toHex, transportSupport, withTimeout,
-} from "./lib/core.js?v=1.0.2";
+} from "./lib/core.js?v=1.0.3";
 
-const PAGE_VERSION = "1.0.2"; // keep the ?v= tags in index.html, flasher.js and lib/board.js equal to this
+const PAGE_VERSION = "1.0.3"; // keep the ?v= tags in index.html, flasher.js and lib/board.js equal to this
 const MANIFEST_URL = "firmware/manifest.json";
 const T = { manifest: 15000, fileIdle: 20000 };
 
@@ -369,10 +369,15 @@ function again() {
 
 // ---------- start ----------
 function start() {
-  log(`page ${PAGE_VERSION}; usb access: ${state.support}; secure context: ${isSecureContext}`);
+  // Never inside another site's frame: a page around it could cover the buttons and trick a click (clickjacking).
+  const framed = window.top !== window.self;
+  if (framed) state.support = "none";
+  log(`page ${PAGE_VERSION}; usb access: ${state.support}; secure context: ${isSecureContext}${framed ? "; framed" : ""}`);
   if (state.support === "none" || !isSecureContext) {
     $("unsupported").hidden = false;
-    $("unsupported-why").textContent = !isSecureContext
+    $("unsupported-why").textContent = framed
+      ? "This page is shown inside another site. Open https://ultraedge.app/flash/ directly."
+      : !isSecureContext
       ? "The page must be opened over https (or on localhost) for USB access."
       : "This browser has neither Web Serial nor WebUSB.";
   }
@@ -389,7 +394,7 @@ function start() {
   if (navigator.serial) navigator.serial.addEventListener("disconnect", (e) => { if (e.target === state.port) onLost(); });
   window.addEventListener("beforeunload", (e) => { if (state.busy) { e.preventDefault(); e.returnValue = ""; } });
   refreshButtons();
-  loadManifest();
+  if (!framed) loadManifest();
 }
 start();
 
