@@ -1,10 +1,10 @@
 // UltraEdge Baylink web flasher: page flow. Design: docs/prds/PRD-baylink-web-flasher.md. Checks live in lib/core.js.
-import { openBoard, writeParts, closeBoard } from "./lib/board.js";
+import { openBoard, writeParts, closeBoard } from "./lib/board.js?v=1.0.1";
 import {
   FlasherError, KINDS, validateManifest, checkPart, kindName, toHex, transportSupport, withTimeout,
-} from "./lib/core.js";
+} from "./lib/core.js?v=1.0.1";
 
-const PAGE_VERSION = "1.0.1";
+const PAGE_VERSION = "1.0.1"; // keep the ?v= tags in index.html, flasher.js and lib/board.js equal to this
 const MANIFEST_URL = "firmware/manifest.json";
 const T = { manifest: 15000, fileIdle: 20000 };
 
