@@ -4,7 +4,7 @@ import {
   FlasherError, KINDS, validateManifest, checkPart, kindName, toHex, transportSupport, withTimeout,
 } from "./lib/core.js";
 
-const PAGE_VERSION = "1.0.0";
+const PAGE_VERSION = "1.0.1";
 const MANIFEST_URL = "firmware/manifest.json";
 const T = { manifest: 15000, fileIdle: 20000 };
 
@@ -125,7 +125,7 @@ function explain(err) {
   const msg = (err && err.message) || String(err);
   if (err && err.name === "NotFoundError")
     return new FlasherError("NOPORT", "No board was picked in the list.",
-      "Press Connect again and pick the board. Not in the list? Try another cable (some only charge) or another USB port.");
+      "Press Connect again and pick the board. Not in the list? Try another cable (some only charge) or another USB port. On a phone, check its OTG setting is on, if it has one.");
   if (err && (err.name === "InvalidStateError" || err.name === "NetworkError" || /already open|Failed to open/i.test(msg)))
     return new FlasherError("PORTBUSY", "The board's port is in use by another program or tab.",
       "Close Arduino IDE, a serial monitor, idf.py monitor or other flasher tabs, unplug the board, plug it in again and Retry.");
@@ -274,7 +274,7 @@ async function connect() {
     const c = b.info;
     state.chip = { name: c.chipDesc, mac: c.mac, flashId: c.flashId, flashBytes: c.flashBytes, current: c.current };
     const again = c.current && c.current.project === "ue_c3_bridge"
-      ? " It already has Baylink firmware; flashing keeps its paired phones and registration." : "";
+      ? " It already has Baylink firmware; flashing keeps its paired phones and activation." : "";
     setStatus("dev-status", `Connected: ESP32-C3, ${Math.round(c.flashBytes / 2 ** 20)} MB.${again}`, "ok");
     progress(null);
   } catch (err) {
@@ -317,7 +317,7 @@ async function flash() {
   refreshButtons();
   const eraseAll = $("erase-all").checked;
   if (eraseAll && !confirm("Erase the whole chip first?\n\nThis also forgets the module's paired phones and its " +
-      "registration. You'll pair and register it again in the app.")) {
+      "activation, and any activation request still waiting for its code. You'll pair and activate it again in the app.")) {
     state.busy = false;
     refreshButtons();
     return;
