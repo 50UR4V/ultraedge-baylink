@@ -11,7 +11,8 @@ email.
 **Update a Baylink you already have:** the same page has the update file for each kind. Download it on the phone and
 pick it in the app under **Wireless module › Update module firmware**.
 
-- Supported radios: https://github.com/50UR4V/edgetx-ue/blob/ultraedge/SUPPORTED-RADIOS.md
+- Get a Baylink or build your own: https://ultraedge.app/wireless
+- Supported radios: https://ultraedge.app/radios
 - Setting up the link: https://github.com/50UR4V/UltraEdge-app/blob/main/UserManual/16-wireless.md
 - Support: https://github.com/50UR4V/UltraEdge-app/issues
 
